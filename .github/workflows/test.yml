@@ -2,7 +2,7 @@ name: Node.js Unit Tests
 
 on:
   pull_request:        # Trigger workflow when a PR is opened
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   test:

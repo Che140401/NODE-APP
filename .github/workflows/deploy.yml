@@ -1,0 +1,40 @@
+name: Deploy To Ubuntu
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - closed
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: self-hosted   # your EC2 runner or self-hosted runner
+    steps:
+      - name: Checkout Main
+        uses: actions/checkout@v3
+        with:
+          ref: master
+
+      - name: Copy New Application
+        run: |
+          mkdir -p /home/ubuntu/node-demo
+          cp app.js /home/ubuntu/node-demo/app.js
+          cp package.json /home/ubuntu/node-demo/package.json
+
+      - name: Install Dependencies
+        run: |
+          cd /home/ubuntu/node-demo
+          npm install --production
+
+      - name: Start Application
+        run: |
+          cd /home/ubuntu/node-demo
+          RUNNER_TRACKING_ID="" nohup node app.js > app.log 2>&1 &
+          echo $! > app.pid
+
+      - name: Verify Deployment
+        run: |
+          sleep 5
+          curl --fail http://localhost:3000/
