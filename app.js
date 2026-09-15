@@ -5,9 +5,5 @@ app.get('/', (req, res) => {
   res.send('Hello, Github Actions! Welcome back to sudden');
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`App running on port ${PORT}`);
-});
-
+// Export only the app (no listen here)
 module.exports = app;
