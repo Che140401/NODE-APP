@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Main
         uses: actions/checkout@v3
         with:
-          ref: master
+          ref: main
 
       - name: Copy New Application
         run: |
